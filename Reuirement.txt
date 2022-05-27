@@ -1,0 +1,31 @@
+1)python   {programing language}
+
+2)python libraries
+
+    a)pandas
+        pandas is used for Loading the data and preprocessing .
+
+    b)numpy
+        numpy is used for manuplation
+    
+    D)matplotlib
+        matplotlib is used for the data visualizations and Finding relationship between data.
+
+3)visual studio code 
+        it is used for writing the code and the program executing.
+
+
+4)data set
+    fetel health dataset file
+
+5)RandomForestClassifier
+    it is used for finding model accuracy score.
+    and training & testing.
+
+6)Hyperparametric tuning.
+7)GridSearchcv.
+8)RondomizedSearchcv.
+9)KfoldCorssvalidation.
+
+
+                                    thanking you.....

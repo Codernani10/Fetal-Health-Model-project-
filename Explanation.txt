@@ -1,0 +1,110 @@
+python libraries
+
+import pandas as pd                   
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+Load and check the data
+df=pd.read_csv("C:\\Users\\naresh\\OneDrive\\Desktop\\MODEL TUNING\\data_set\\fetal_health.csv")
+df
+df.dtypes
+df.info()
+df.describe()
+
+
+Preprocessing the data
+df.isnull().sum()
+df.shape
+# Feature selection
+X=df.iloc[:,:-1]           #   x ===> feature
+X.shape
+y=df.iloc[:,-1]            # y ===>  target
+y.shape
+
+
+
+
+
+
+Traing and Testing the data
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+X_train.shape,y_train.shape
+X_test.shape,y_test.shape
+
+
+
+
+
+
+Model selection
+Building a ML Model by using Random forest classifier
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score,classification_report
+model= RandomForestClassifier()
+model.fit(X_train,y_train)
+model.score(X_test,y_test)
+y_pred=model.predict(X_test)
+print(y_pred)
+print(classification_report(y_pred,y_test))
+
+
+
+
+
+
+# Hyperparametric tuning
+n_estimators=[int(x) for x in np.linspace(start=10,stop=80,num=10)]
+max_features=['auto',"sqrt"]
+max_depth=[2,4]
+min_samples_split=[2,5]
+min_samples_leaf=[1,2]
+bootstrap=[True,False]
+#creat a random grid
+param_grid = {"n_estimators":n_estimators,
+             'max_features':max_features,
+             'max_depth':max_depth,
+             'min_samples_split':min_samples_split,
+             "min_samples_leaf":min_samples_leaf,
+             "bootstrap":bootstrap}
+print(param_grid)
+
+
+
+
+
+
+
+
+
+
+# GridSearchCV
+from sklearn.model_selection import GridSearchCV
+model_grid=GridSearchCV(estimator=model,param_grid=param_grid,cv=3,verbose=2,n_jobs=4)
+model_grid.fit(X_train,y_train)
+model_grid.best_params_
+model_grid.score(X_test,y_test)
+model_grid.score(X_train,y_train)
+
+
+
+
+
+# RandomizedSearchCV
+from sklearn.model_selection import RandomizedSearchCV
+rdcv=RandomizedSearchCV(estimator=model,param_distributions=param_grid,cv=3)
+rdcv.fit(X_train,y_train)
+rdcv.score(X_test,y_test)
+
+
+
+
+
+# Kfold cross validation
+from sklearn.model_selection import cross_val_score
+score_rf=cross_val_score(RandomForestClassifier(n_estimators=30),X,y,cv=3)
+print(score_rf)
+print("Avg accuracy :",np.average(score_rf))
